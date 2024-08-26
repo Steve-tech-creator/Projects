@@ -1,0 +1,35 @@
+﻿using Volo.Abp.Account;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.TenantManagement;
+using Microsoft.Extensions.DependencyInjection;
+using ProductStore.Products;
+
+namespace ProductStore;
+
+[DependsOn(
+    typeof(ProductStoreDomainModule),
+    typeof(AbpAccountApplicationModule),
+    typeof(ProductStoreApplicationContractsModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpPermissionManagementApplicationModule),
+    typeof(AbpTenantManagementApplicationModule),
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpSettingManagementApplicationModule)
+    )]
+public class ProductStoreApplicationModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+            options.AddMaps<ProductStoreApplicationModule>();
+        });
+        
+    }
+}
